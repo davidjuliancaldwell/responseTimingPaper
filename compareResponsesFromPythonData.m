@@ -1,9 +1,7 @@
-%% 12-10-2016 - Use MATLAB to compare response times from Python 
+%%  Use MATLAB to compare response times from Python 
 % READ TABLE
-%T = readtable('dataCleaned.csv');
 
 T = readtable('dataCleaned_4subj.csv');
-
 %% subject 1
 
 sub1_response = T.responseTime_ms_(T.Subject==1);
@@ -11,10 +9,11 @@ sub1_group = T.experiment(T.Subject==1);
 
 x = sub1_response(strcmp(sub1_group,'200 ms '));
 y = sub1_response(strcmp(sub1_group,'tactor'));
+% 
+% [p,table,stats] = kruskalwallis(sub1_response,sub1_group);
+% 
+% [c,m,h,nms] = multcompare(stats);
 
-[p,table,stats] = kruskalwallis(sub1_response,sub1_group);
-
-[c,m,h,nms] = multcompare(stats);
 
 [p,table,stats] = ranksum(x,y);
 
@@ -112,6 +111,7 @@ end
 
 statarray=grpstats(T,{'experiment','Subject','block'},'mean','DataVars','responseTime_ms_')
 
-statarray2=grpstats(T,{'experiment','Subject'},'mean','DataVars','responseTime_ms_')
+statarray2=grpstats(T,{'experiment','Subject'},{'mean','std'},'DataVars','responseTime_ms_')
+
 
 
