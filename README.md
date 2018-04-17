@@ -19,7 +19,8 @@ numpy
 scipy   
 matplotlib  
 pandas  
-seaborn   
+seaborn  
+statsmodels   
 
 ___
 BSD-3 License
