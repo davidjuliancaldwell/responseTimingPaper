@@ -1,14 +1,14 @@
 %%  Use MATLAB to compare response times from Python 
 % READ TABLE
 
-T = readtable('dataCleaned_4subj.csv');
+T = readtable('dataCleaned_4subj_tactorSub.csv');
 %% subject 1
 
 sub1_response = T.responseTime_ms_(T.Subject==1);
 sub1_group = T.experiment(T.Subject==1);
 
 x = sub1_response(strcmp(sub1_group,'200 ms '));
-y = sub1_response(strcmp(sub1_group,'tactor'));
+y = sub1_response(strcmp(sub1_group,'touch'));
 % 
 % [p,table,stats] = kruskalwallis(sub1_response,sub1_group);
 % 
