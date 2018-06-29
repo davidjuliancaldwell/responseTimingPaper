@@ -1,6 +1,6 @@
 %% Run the statistics on the python grouped data 
 
-T = readtable('dataCleaned_4subj_tactorSub.csv');
+T = readtable('dataCleaned_4subj_ND_CP.csv');
 
 %% subject 1
 
@@ -127,4 +127,64 @@ statarray=grpstats(T,{'experiment','Subject','block'},'mean','DataVars','respons
 
 statarray2=grpstats(T,{'experiment','Subject'},'mean','DataVars','responseTime_ms_')
 
+%% adjust for digital touch probe latency for supplemental figure 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+Tadjust = T;
+Tadjust.responseTime_ms_(strcmp(T.experiment,'touch')) = Tadjust.responseTime_ms_(strcmp(T.experiment,'touch')) + 5.83;
+
+
+%% subject 1
+
+sub1_response = Tadjust.responseTime_ms_(Tadjust.Subject==1);
+sub1_group = Tadjust.experiment(Tadjust.Subject==1);
+
+x = sub1_response(strcmp(sub1_group,'200 ms '));
+y = sub1_response(strcmp(sub1_group,'touch'));
+
+% test for equal variance
+vartestn(sub1_response,sub1_group,'TestType','BrownForsythe')
+
+% rank sum
+[p,table,stats] = ranksum(x,y)
+
+
+%% subject 2
+
+sub2_response = (Tadjust.responseTime_ms_(Tadjust.Subject==2));
+sub2_group = Tadjust.experiment(Tadjust.Subject==2);
+
+% test for normality
+vartestn(sub2_response,sub2_group,'TestType','BrownForsythe')
+
+% kruskal wallis with postoc Dunn-Sidak
+[p,table,stats] = kruskalwallis(sub2_response,sub2_group);
+[c,m,h,nms] = multcompare(stats,'ctype','dunn-sidak');
+c((c(:,6)<0.05),[1 2 6])
+
+
+%% subject 3
+
+sub3_response = (Tadjust.responseTime_ms_(Tadjust.Subject==3 & ~ismember(Tadjust.experiment,'100 ms ')));
+sub3_group = Tadjust.experiment(Tadjust.Subject==3 & ~ismember(Tadjust.experiment,'100 ms '));
+
+% test for equal variances
+vartestn(sub3_response,sub3_group,'TestType','BrownForsythe')
+
+% kruskal wallis with postoc Dunn-Sidak
+[p,table,stats] = kruskalwallis(sub3_response,sub3_group);
+[c,m,h,nms] = multcompare(stats,'ctype','dunn-sidak');
+c((c(:,6)<0.05),[1 2 6])
+
+%% subject 4 
+
+sub4_response = (Tadjust.responseTime_ms_(Tadjust.Subject==4 & ~ismember(Tadjust.experiment,'100 ms ')));
+sub4_group = Tadjust.experiment(Tadjust.Subject==4 & ~ismember(Tadjust.experiment,'100 ms '));
+
+% test for normality
+vartestn(sub4_response,sub4_group,'TestType','BrownForsythe')
+
+% kruskal wallis with postoc Dunn-Sidak
+[p,table,stats] = kruskalwallis(sub4_response,sub4_group);
+[c,m,h,nms] = multcompare(stats,'ctype','dunn-sidak');
+c((c(:,6)<0.05),[1 2 6])
