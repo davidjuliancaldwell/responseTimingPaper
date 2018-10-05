@@ -1,4 +1,4 @@
-# This is the readme that contains the MATLAB code, Python code, and data to recreate the analyses and figures in Caldwell DJ, Cronin JA, Wu J, Weaver K, Rajesh PN, Ko AL, Ojemann JG, "Cortical stimulation results in slower reaction times compared to peripheral touch in humans", 2018.
+# This is the readme that contains the MATLAB code, Python code, and data to recreate the analyses and figures in Caldwell DJ, Cronin JA, Wu J, Weaver K, Rajesh PN, Ko AL, Ojemann JG, "Direct stimulation of somatosensory cortex results in slower reaction times compared to peripheral touch in humans", 2018.
 ___
 To generate the figures in the paper, run the jupyter notebook **plotting_response_time_data.ipynb**  .
 
